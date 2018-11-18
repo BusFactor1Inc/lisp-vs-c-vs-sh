@@ -1,9 +1,9 @@
 
-Little Comparison Between Common Lisp and C
-===========================================
+Little Comparison Between Common Lisp and C and Shell Script
+============================================================
 
 Here is a little program: compute factorial of 42,
-implemented in C and in Common Lisp.
+implemented in C and in Common Lisp and in Shell Script.
 
 We note that:
 
@@ -15,6 +15,12 @@ We note that:
    parentheses, if you count also the braces, the brackets, the
    angle-brackets (of #include), and the semi-colon that surround
    statements…
+   
+4- Shell Script is measurably slowest.
+
+5- Shell script has the lowest 'syntax' count (parenthesis and other
+   syntactical structures).
+   
 
 Said otherwise:
 
@@ -23,6 +29,8 @@ Said otherwise:
 2- the Lisp program gives the correct result.
 
 3- the lisp program is more concise and counts fewer parentheses.
+
+4- the shell script program is most concise and counts even fewer parens.
 
 
 ==== fact.c =======
@@ -35,11 +43,16 @@ Said otherwise:
 42! = 1405006117752879898543142606244511569936384000000000
         0.00 real         0.00 user         0.00 sys
 
+==== fact.unix ====
+
+42! = 1405006117752879898543142606244511569936384000000000
+       real    0m      0.172s user     0m0.064s        sys     0m0.120s
+       
 ===================
 
 fact.lisp             24 parentheses, braces, brackets, angle-brackets, semi-colons, commas
 fact.c                34 parentheses, braces, brackets, angle-brackets, semi-colons, commas
-
+fact.unix             8 parentheses, braces, brackets, angle-brackets, semi-colons, commas
 
 ==== fact.lisp ====
 
@@ -76,11 +89,23 @@ int main()
 
 ===================
 
+==== fact.unix ====
+#!/bin/sh                                                                       
+
+n=42
+nf=1
+for n in $(seq 1 $n); do
+    nf=$(echo "$nf $n * p" | dc)
+done
+echo $nf
+
 
 Note: to compare a more complex and real program implemented in Lisp and in C, 
 have a look at https://github.com/informatimago/scquery (sources/ and sources-cl/).
 
 scquery in Lisp     1279 parentheses, braces, brackets, angle-brackets, semi-colons, commas
 scquery in C        8052 parentheses, braces, brackets, angle-brackets, semi-colons, commas
+
+TODO: write scquery in POSIX UNIX.
 
 
